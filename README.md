@@ -13,6 +13,8 @@
 * Github acoount
 * virtual environment
 * internet network
+* Postgres
+
 
 
 ## BDD
@@ -30,7 +32,8 @@
 * Python3.6
 * Flask
 * Heroku
-* Markdown
+* Markdow
+
 
 ## Support and contact details
 If anyone need support concerning my project or anything related, just reach out to zilcyam@gmail.com
