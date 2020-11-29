@@ -1,7 +1,7 @@
 # PITCH-APP
 
 ## Description
-   An application that allows users to use to submit their one minute pitches and other users will vote on them and leave comments to give their feedback on them.
+   An application that allows users to submit their one minute pitches and other users will vote on them and leave comments to give their feedback on them.
 
 ## Author(s) information
 [iamzilfa](https://github.com/iamzilfa)
