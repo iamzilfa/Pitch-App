@@ -1,9 +1,11 @@
 {% extends 'base.html'%}
 {% import 'bootstrap/wtf.html' as wtf%}
+<link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bad+Script&family=Courgette&display=swap" rel="stylesheet">
 
 {% block content%}
 <div class="container">
-    <h3 class="text-center m-4"><strong>Write a comment</strong></h3>
+    <h3 class="text-center m-4" style="font-family: 'Times New Roman', Times, serif;"><strong>Write a comment</strong></h3>
     <div class="card p-5 jumbotron" style="background-color: rgb(247, 206, 213);">
         {{ wtf.quick_form(form)}}
     </div>
@@ -11,11 +13,11 @@
     {% if all_comments %}
 
     <div class="m-5">
-        <p>Comments</p> {% for comment in all_comments %} <div class="card">
+        {% for comment in all_comments %} <div class="card">
             <div class="card p-3">
-                <p class="card-title">{{ comment.comment }}</p>
-                <hr>
-                <p class="card-text">{{ comment.user.username}}</p>
+                <p class="card-title" style="font-family: 'Bad Script', cursive;"> <ul>{{ comment.comment | capitalize }} </ul> </p>
+                <hr style="border: 1px solid rgb(241, 166, 179);">
+                <p class="card-text" style="font-family: 'Courgette', cursive;font-weight: bold; font-size:16px;">{{ comment.user.username | capitalize}}:</p>
             </div>
         </div>
         {% endfor %}
