@@ -1,6 +1,6 @@
 from . import db
 from werkzeug.security import generate_password_hash,check_password_hash
-from flask_login import UserMixin
+from flask_login import UserMixin,current_user
 from . import login_manager
 from datetime import datetime
 
@@ -8,7 +8,6 @@ from datetime import datetime
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-
 
 
 class Role(db.Model):
@@ -23,7 +22,6 @@ class Role(db.Model):
         return f'User {self.name}'
 
 
-
 class User(UserMixin,db.Model):
     __tablename__ = 'users'
 
@@ -35,7 +33,10 @@ class User(UserMixin,db.Model):
     profile_pic_path = db.Column(db.String())
     password_secure = db.Column(db.String(255))
 
-    pitches = db.relationship('Pitch', backref='user', lazy='dynamic')
+    pitch = db.relationship('Pitch', backref='user', lazy='dynamic')
+    comment = db.relationship('Comment', backref='user', lazy='dynamic')
+    upvote = db.relationship('Upvote', backref='user', lazy='dynamic')
+    downvote = db.relationship('Downvote', backref='user', lazy='dynamic')
 
 
     @property
@@ -51,6 +52,11 @@ class User(UserMixin,db.Model):
         return check_password_hash(self.password_secure,password)
 
     
+
+    def delete(self):
+        db.session.add(self)
+        db.session.commit(self)
+    
     def __repr__(self):
         return f'User {self.username}'
 
@@ -61,14 +67,93 @@ class Pitch(db.Model):
 
     id = db.Column(db.Integer,primary_key = True)
     title = db.Column(db.String(255),nullable=False)
-    posted = db.Column(db.DateTime,default=datetime.utcnow)
+    time = db.Column(db.DateTime,default=datetime.utcnow)
+    post = db.Column(db.Text(), nullable = False)
     category = db.Column(db.String(255), index=True, nullable=False)
 
-    user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
+    user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
+
+    comment = db.relationship('Comment', backref='pitch', lazy='dynamic')
+    upvote = db.relationship('Upvote', backref='pitch', lazy='dynamic')
+    downvote = db.relationship('Downvote', backref='pitch', lazy='dynamic')
+
 
     def save_pit(self):
         db.session.add(self)
-        db.session.commi()
+        db.session.commit()
     
     def __repr__(self):
-        return f'Pitch' {self.post}
+        return f'Pitch {self.post}'
+
+class Comment(db.Model):
+    __tablename__ = 'comments'
+
+    id = db.Column(db.Integer, primary_key=True)
+    comment = db.Column(db.Text(),nullable = False)
+    user_id = db.Column(db.Integer,db.ForeignKey('users.id'),nullable = False)
+    pitch_id = db.Column(db.Integer,db.ForeignKey('pitches.id'),nullable = False)
+
+    def save_com(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_comments(cls,pitch_id):
+        comments = Comment.query.filter_by(pitch_id=pitch_id).all()
+
+        return comments
+
+    def __repr__(self):
+        return f'comment:{self.comment}'
+
+class Upvote(db.Model):
+    __tablename__ = 'upvotes'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer,db.ForeignKey('users.id'),nullable = False)
+    pitch_id = db.Column(db.Integer,db.ForeignKey('pitches.id'),nullable = False)
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_upvotes(cls,pitch_id):
+        upvote = Upvote.query.filter_by(pitch_id=pitch_id).all()
+
+        return upvote
+
+    def __repr__(self):
+        return f'{self.user_id}:{self.pitch_id}'
+
+class Downvote(db.Model):
+    __tablename__ = 'downvotes'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer,db.ForeignKey('users.id'),nullable = False)
+    pitch_id = db.Column(db.Integer,db.ForeignKey('pitches.id'),nullable = False)
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_downvotes(cls,pitch_id):
+        downvote = Downvote.query.filter_by(pitch_id=pitch_id).all()
+
+        return Downvote
+
+    def __repr__(self):
+        return f'{self.user_id}:{self.pitch_id}'
+
+
+
+
+
+
+
+
+
+    
+
+    

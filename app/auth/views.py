@@ -32,18 +32,7 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(email = form.email.data, username = form.username.data,password = form.password.data)
-        db.session.add(user)
-        db.session.commit()
         return redirect(url_for('auth.login'))
         title = "New Account"
     return render_template('auth/register.html',registration_form = form)
 
-
-# @main.route('/user/<uname>')
-# def profile(uname):
-#     user = User.query.filter_by(username = uname).first()
-
-#     if user is None:
-#         abort(404)
-
-#     return render_template("profile/profile.html", user = user)

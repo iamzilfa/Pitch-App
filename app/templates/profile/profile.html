@@ -1,32 +1,24 @@
 {% extends 'base.html'%}
+<link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@300&display=swap" rel="stylesheet">
 
 {% block content %}
 
-<div class="container">
+<div class="container m-5">
 
     <div class="row">
 
         <!-- displaying  Username-->
-        <div class="col-md-4">
-            <h3> {{user.username| capitalize}} </h3>
 
-            {% if user == current_user %}
-            <a href="{{url_for('main.update_profile',uname=user.username)}}">Edit profile</a>
-            {% endif %}
-
-            <!--Displaying user bio-->
-            {% if user.bio %}
-            <p> {{user.bio}}</p>
-            {%else%}
-            <p> {{user.username| capitalize}} has no bio </p>
-            {% endif %}
-        </div>
 
         <!--Display profile photo-->
-        <div class="col-md-4">
+        <br>
+        <br>
+        
+        <div class="col-md-6">
             {% if user.profile_pic_path %}
 
-            <img src="{{url_for('static',filename=user.profile_pic_path)}}" alt="" class="img-thumbnail">
+            <img src="{{url_for('static',filename=user.profile_pic_path)}}" alt="" class="img-thumbnail"
+                style="width: 400px;height: 400px;">
 
             {%else%}
             <p>No profile picture</p>
@@ -37,12 +29,32 @@
             <form action="{{url_for('main.update_pic',uname=user.username)}}" method="post"
                 enctype="multipart/form-data">
 
-                <input type="file" name="photo" class="form-control" required>
-                <input type="submit">
+                <input type="file" name="photo" style="width: 400px;" class="form-control" required>
+                <input class="btn btn-primary" type="submit">
             </form>
             {% endif %}
         </div>
-        
+<br>
+<br>
+        <div class="col-md-4">
+            <div class="jumbotron" style="height: 200px; background-color: rgb(240, 185, 194);">
+                <h3><span style="font-family: 'Times New Roman', Times, serif; font-weight: bold;">Name:</span> <span  style="font-family: 'Sansita Swashed', cursive; font-size: 18px;" >{{user.username| capitalize}} </span></h3>
+                <span style="color: purple;"> <hr></span>
+
+
+                <!--Displaying user bio-->
+                {% if user.bio %}
+                <p> <span style="font-family: 'Times New Roman', Times, serif;font-weight: bold;">Bio: </span>  <span  style="font-family: 'Sansita Swashed', cursive;font-size: 18px;" > {{user.bio}}</span></p>
+                {%else%}
+                <p> {{user.username| capitalize}} has no bio </p>
+                {% endif %}
+                
+            </div>
+            {% if user == current_user %}
+            <a class="btn btn-primary" style="margin-left:280px"  href="{{url_for('main.update_profile',uname=user.username)}}">Edit bio</a>
+            {% endif %}
+        </div>
+
     </div>
 </div>
 {% endblock %}
