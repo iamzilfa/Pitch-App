@@ -20,7 +20,7 @@
                 <div class="card-body text-center" style="margin-top: 30px;">
                     <p style="text-transform: capitalize;color: purple;font-size: 15px;font-family: 'Kaushan Script', cursive;text-decoration: double underline purple;text-underline-position: under;">
                         {{category.title}}</p> <br>
-                    <p style="text-align: center; text-transform: capitalize;font-weight: normal;color: rgb(8, 78, 170);font-family: 'Kalam', cursive;font-size: 17px;">{{category.post}}</p> <br>
+                    <p style="text-align: center; text-transform: capitalize;font-weight: normal;color: rgb(8, 78, 170);font-family: 'Kalam', cursive;font-size: 17px;">{{category.post}}</p>
                     <footer class="blockquote-footer text-center" style="text-transform: capitalize;font-weight: normal;"><i class="fas fa-user-edit fa-sm"></i>
                         <small><i>
                             {{category.user.username}}</i></small></footer><br> <br>
@@ -34,7 +34,7 @@
                         <span class="foot"><a href="{{url_for('main.dislike', id = category.id)}}"><i
                                     class="fa fa-thumbs-down fa-lg"
                                     style="color:purple"></i></a>{{category.downvote.count()}}</span> &nbsp;&nbsp;&nbsp;
-                        <a href="{{url_for('main.comment',pitch_id=category.id)}}" class="btn btn-primary btn-sm"><i class="fas fa-pen"></i> Comment</a>
+                        <a href="{{url_for('main.comment',pitch_id=category.id)}}" class="btn btn-primary btn-sm">Comment</a>
                     </div>
                 </div>
             </div>
